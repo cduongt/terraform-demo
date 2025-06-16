@@ -35,3 +35,9 @@ module "alb" {
   ecs_task_arn      = module.ecs.task_arn
   region            = var.region
 }
+
+
+module "cloudwatch" {
+  source           = "./modules/cloudwatch"
+  ecs_cluster_name = var.ecs_cluster_name
+}
