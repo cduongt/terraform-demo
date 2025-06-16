@@ -8,6 +8,8 @@ module "ecs" {
   ecr_repository_url = var.ecr_repository_url
   subnet_id          = module.network.public_subnet_id
   security_group_id  = module.network.security_group_id
+  region             = var.region
+  environment        = var.environment
 }
 
 module "storage" {
@@ -18,8 +20,10 @@ module "database" {
   source            = "./modules/database"
   subnet_ids        = module.network.private_subnet_ids
   security_group_ids = [module.network.security_group_id]
-  db_username       = "your-username"
-  db_password       = "your-password"
+  db_username       = var.db_username
+  db_password       = var.db_password
+  region            = var.region
+  environment       = var.environment
 }
 
 module "alb" {
@@ -29,4 +33,5 @@ module "alb" {
   security_group_ids = [module.network.security_group_id]
   vpc_id            = module.network.vpc_id
   ecs_task_arn      = module.ecs.task_arn
+  region            = var.region
 }
